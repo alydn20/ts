@@ -98,11 +98,18 @@ setInterval(async () => {
     let usdIdr = cachedMarketData.usdIdr;
     if (currentMinute !== lastFetchMinute || cachedMarketData.lastUsdIdrFetch === 0) {
       try {
-        usdIdr = await fetchUSDIDRFromGoogle();
-        cachedMarketData.lastUsdIdrFetch = now
-        console.log(`[Cache] USD/IDR updated: Rp ${usdIdr.rate.toLocaleString('id-ID')}`)
+        const newUsdIdr = await fetchUSDIDRFromGoogle();
+        // Hanya update jika berhasil dapat data (bukan null)
+        if (newUsdIdr && newUsdIdr.rate) {
+          usdIdr = newUsdIdr;
+          cachedMarketData.lastUsdIdrFetch = now
+          console.log(`[Cache] USD/IDR updated: Rp ${usdIdr.rate.toLocaleString('id-ID')}`)
+        } else {
+          console.log(`[Cache] USD/IDR fetch failed, keeping old value`)
+        }
       } catch (e) {
         // Keep old USD/IDR if fetch fails
+        console.log(`[Cache] USD/IDR error, keeping old value`)
       }
     }
 
@@ -998,7 +1005,8 @@ async function doBroadcast(priceChange, priceData) {
       }
     }
 
-    const message = formatMessage(treasuryData, cachedMarketData.usdIdr.rate, cachedMarketData.xauUsd, priceChange, cachedMarketData.economicEvents)
+    const usdRate = cachedMarketData.usdIdr?.rate || null
+    const message = formatMessage(treasuryData, usdRate, cachedMarketData.xauUsd, priceChange, cachedMarketData.economicEvents)
 
     pushLog(`📤 [#${currentBroadcastId}] Sending to ${subscriptions.size} subs...`)
     
