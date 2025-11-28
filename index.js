@@ -957,10 +957,11 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 💰 Beli ${buyFormatted} | Jual ${sellFormatted} (${spreadPercent > 0 ? '-' : ''}${spreadPercent}%)
 ${marketSection}
 
-🎁 20jt→${formatGrams(grams20M)}gr (+Rp${formatRupiah(Math.round(profit20M))}) | 30jt→${formatGrams(grams30M)}gr (+Rp${formatRupiah(Math.round(profit30M))})
+🎁 20jt→${formatGrams(grams20M)}gr (+Rp${formatRupiah(Math.round(profit20M))})
+🎁 30jt→${formatGrams(grams30M)}gr (+Rp${formatRupiah(Math.round(profit30M))})
 ${calendarSection}
 ⚡ Auto-update
-🌐 https://ts.muhamadaliyudin.xyz/`
+🌐 Via website: https://ts.muhamadaliyudin.xyz/`
 }
 async function fetchTreasury() {
   const res = await fetch(TREASURY_URL, {
@@ -1122,13 +1123,11 @@ async function checkPriceUpdate() {
     const isNewMinute = currentMinute !== lastMinute
     
     // 🎯 LOGIKA BROADCAST:
-    // 1. Jika status berubah ke TIDAK NORMAL → BROADCAST LANGSUNG (prioritas tinggi!)
-    // 2. Jika harga stale (5+ menit tidak update) → BROADCAST LANGSUNG saat ada update baru
-    // 3. Jika harga tidak stale → ikuti cooldown normal (50 detik ATAU ganti menit)
+    // 1. Jika harga stale (5+ menit tidak update) → BROADCAST LANGSUNG saat ada update baru
+    // 2. Jika harga tidak stale → ikuti cooldown normal (50 detik ATAU ganti menit)
+    // NOTE: Status change TIDAK langsung broadcast untuk menghindari spam
 
-    const shouldBroadcast = statusChanged && currentStatus === 'ABNORMAL'
-      ? true  // Langsung broadcast jika status berubah ke TIDAK NORMAL
-      : isPriceStale
+    const shouldBroadcast = isPriceStale
       ? true  // Langsung broadcast jika harga baru setelah 5 menit stale
       : (timeSinceLastBroadcast >= BROADCAST_COOLDOWN || isNewMinute)
     
