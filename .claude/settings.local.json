@@ -7,7 +7,11 @@
       "Bash(git branch:*)",
       "Bash(git remote add:*)",
       "Bash(git push:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(cat:*)",
+      "Bash(git -C \"C:/Users/itohh/Downloads/asd/emas-main\" status)",
+      "Bash(git -C \"C:/Users/itohh/Downloads/asd/emas-main\" ls-tree:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
