@@ -11,7 +11,9 @@
       "Bash(cat:*)",
       "Bash(git -C \"C:/Users/itohh/Downloads/asd/emas-main\" status)",
       "Bash(git -C \"C:/Users/itohh/Downloads/asd/emas-main\" ls-tree:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm install)",
+      "WebFetch(domain:registry.npmjs.org)"
     ],
     "deny": [],
     "ask": []
