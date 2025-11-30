@@ -1455,10 +1455,12 @@ async function start() {
         const sendTarget = msg.key.remoteJid
         
         if (/\baktif\b/.test(text)) {
+          pushLog(`📥 CMD aktif from: ${sendTarget.substring(0, 15)}, already subscribed: ${subscriptions.has(sendTarget)}`)
           if (subscriptions.has(sendTarget)) {
             await sock.sendMessage(sendTarget, {
               text: '✅ Sudah aktif!\n\n📢 Update otomatis saat harga berubah\n⏰ Broadcast setiap ganti menit atau per 50 detik\n📅 Termasuk kalender ekonomi USD (auto-hide 3 jam)\n⚡ Ultra real-time (1 detik check interval)'
             }, { quoted: msg })
+            pushLog(`✅ Sent "Sudah aktif" reply`)
           } else {
             subscriptions.add(sendTarget)
             pushLog(`➕ New sub: ${sendTarget.substring(0, 15)} (total: ${subscriptions.size})`)
