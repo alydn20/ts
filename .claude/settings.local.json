@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit - Treasury Gold Bot\n\n- USD default: tampilkan \"-\" jika gagal fetch (bukan hardcode 15900)\n- TIDAK NORMAL: tampilkan \"-\" jika data USD/XAU tidak tersedia\n- Tambah link website https://ts.muhamadaliyudin.xyz/\n\n🤖 Generated with [Claude Code](https://claude.ai/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git branch:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(cat:*)",
+      "Bash(git -C \"C:/Users/itohh/Downloads/asd/emas-main\" status)",
+      "Bash(git -C \"C:/Users/itohh/Downloads/asd/emas-main\" ls-tree:*)",
+      "WebSearch",
+      "Bash(npm install)",
+      "WebFetch(domain:registry.npmjs.org)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
