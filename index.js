@@ -964,16 +964,26 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
   // Format gram dengan 4 digit desimal
   const formatGrams = (g) => g.toFixed(4)
 
+  // Format profit: +Rp untuk positif, -Rp untuk negatif (tanpa + di depan)
+  const formatProfitDisplay = (profit) => {
+    const rounded = Math.round(profit)
+    if (rounded >= 0) {
+      return `+Rp${formatRupiah(rounded)}`
+    } else {
+      return `-Rp${formatRupiah(Math.abs(rounded))}`
+    }
+  }
+
   return `${headerSection}${timeSection}${statusSection}
 
 💰 Beli ${buyFormatted} | Jual ${sellFormatted} (${spreadPercent > 0 ? '-' : ''}${spreadPercent}%)
 ${marketSection}
 
-🎁 10jt→${formatGrams(grams10M)}gr (+Rp${formatRupiah(Math.round(profit10M))})
-🎁 20jt→${formatGrams(grams20M)}gr (+Rp${formatRupiah(Math.round(profit20M))})
-🎁 30jt→${formatGrams(grams30M)}gr (+Rp${formatRupiah(Math.round(profit30M))})
-🎁 40jt→${formatGrams(grams40M)}gr (+Rp${formatRupiah(Math.round(profit40M))})
-🎁 50jt→${formatGrams(grams50M)}gr (+Rp${formatRupiah(Math.round(profit50M))})
+🎁 10jt→${formatGrams(grams10M)}gr (${formatProfitDisplay(profit10M)})
+🎁 20jt→${formatGrams(grams20M)}gr (${formatProfitDisplay(profit20M)})
+🎁 30jt→${formatGrams(grams30M)}gr (${formatProfitDisplay(profit30M)})
+🎁 40jt→${formatGrams(grams40M)}gr (${formatProfitDisplay(profit40M)})
+🎁 50jt→${formatGrams(grams50M)}gr (${formatProfitDisplay(profit50M)})
 ${calendarSection}
 ⚡ Auto-update
 🌐 Via website: https://ts.muhamadaliyudin.xyz/`
