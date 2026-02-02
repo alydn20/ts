@@ -193,13 +193,11 @@ function calculateDiscount(investmentAmount) {
     discount = Math.max(investmentAmount * 0.5, MIN_DISCOUNT)
   } else if (investmentAmount <= 250000) {
     discount = investmentAmount * 0.0299 // 2.99%
-  } else if (investmentAmount <= 20000000) {
-    discount = investmentAmount * 0.0343 // 3.43%
-  } else if (investmentAmount <= 30000000) {
-    discount = investmentAmount * 0.034 // 3.4%
+  } else if (investmentAmount <= 10000000) {
+    discount = investmentAmount * 0.0331 // 3.31%
   } else {
-    // Untuk > 30jt: (amount × 3.275%) + 37.500
-    discount = (investmentAmount * 0.03275) + 37500
+    // Untuk > 10jt: 3.35%
+    discount = investmentAmount * 0.0335
   }
 
   return Math.round(discount)
@@ -952,6 +950,8 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 
   const calendarSection = formatEconomicCalendar(economicEvents)
 
+  const grams10M = calculateProfit(buy, sell, 10000000).totalGrams
+  const profit10M = calculateProfit(buy, sell, 10000000).profit
   const grams20M = calculateProfit(buy, sell, 20000000).totalGrams
   const profit20M = calculateProfit(buy, sell, 20000000).profit
   const grams30M = calculateProfit(buy, sell, 30000000).totalGrams
@@ -969,6 +969,7 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 💰 Beli ${buyFormatted} | Jual ${sellFormatted} (${spreadPercent > 0 ? '-' : ''}${spreadPercent}%)
 ${marketSection}
 
+🎁 10jt→${formatGrams(grams10M)}gr (+Rp${formatRupiah(Math.round(profit10M))})
 🎁 20jt→${formatGrams(grams20M)}gr (+Rp${formatRupiah(Math.round(profit20M))})
 🎁 30jt→${formatGrams(grams30M)}gr (+Rp${formatRupiah(Math.round(profit30M))})
 🎁 40jt→${formatGrams(grams40M)}gr (+Rp${formatRupiah(Math.round(profit40M))})
