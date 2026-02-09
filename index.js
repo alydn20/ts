@@ -989,7 +989,7 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 
   return `${headerSection}${timeSection}${statusSection}
 
-💰 Beli ${buyFormatted} | Jual ${sellFormatted} (${parseFloat(spreadPercent) > 3.35 ? '⚠️' : ''}${spreadPercent > 0 ? '-' : ''}${spreadPercent}%)
+💰 Beli ${buyFormatted} | Jual ${sellFormatted} (${Math.abs(parseFloat(spreadPercent)) > 3.35 ? '⚠️' : ''}${spreadPercent > 0 ? '-' : ''}${spreadPercent}%)
 ${marketSection}
 
 • 10jt→${formatGrams(grams10M)}gr (${formatProfitDisplay(profit10M)})
