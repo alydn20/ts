@@ -454,7 +454,7 @@ function formatEconomicCalendar(events) {
     if (group.timeStatus) {
       calendarText += ` (${group.timeStatus})`
     }
-    calendarText += `(${group.items.length})\n  - ${group.items.join(', ')}\n`
+    calendarText += `(${group.items.length})\n• ${group.items.join(', ')}\n`
   })
 
   return calendarText
@@ -988,11 +988,11 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 💰 Beli ${buyFormatted} | Jual ${sellFormatted} (${spreadPercent > 0 ? '-' : ''}${spreadPercent}%)
 ${marketSection}
 
-10jt→${formatGrams(grams10M)}gr (${formatProfitDisplay(profit10M)})
-20jt→${formatGrams(grams20M)}gr (${formatProfitDisplay(profit20M)})
-30jt→${formatGrams(grams30M)}gr (${formatProfitDisplay(profit30M)})
-40jt→${formatGrams(grams40M)}gr (${formatProfitDisplay(profit40M)})
-50jt→${formatGrams(grams50M)}gr (${formatProfitDisplay(profit50M)})
+• 10jt→${formatGrams(grams10M)}gr (${formatProfitDisplay(profit10M)})
+• 20jt→${formatGrams(grams20M)}gr (${formatProfitDisplay(profit20M)})
+• 30jt→${formatGrams(grams30M)}gr (${formatProfitDisplay(profit30M)})
+• 40jt→${formatGrams(grams40M)}gr (${formatProfitDisplay(profit40M)})
+• 50jt→${formatGrams(grams50M)}gr (${formatProfitDisplay(profit50M)})
 ${calendarSection}
 🌐 Via website: https://ts.muhamadaliyudin.xyz/`
 }
