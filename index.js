@@ -942,12 +942,7 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
     }
   }
 
-  // Analisis status harga dengan rumus user
-  let statusSection = ''
-  if (xauUsdPrice && usdIdrRate) {
-    const priceStatus = analyzePriceStatus(buy, sell, xauUsdPrice, usdIdrRate)
-    statusSection = `\n${priceStatus.message}`
-  }
+  const statusSection = ''
 
   let marketSection = usdIdrRate
     ? `💱 USD Rp${formatRupiah(Math.round(usdIdrRate))}`
@@ -955,6 +950,15 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 
   if (xauUsdPrice) {
     marketSection += ` | XAU $${xauUsdPrice.toFixed(2)}`
+    if (usdIdrRate) {
+      const priceStatus = analyzePriceStatus(buy, sell, xauUsdPrice, usdIdrRate)
+      if (priceStatus.status === 'NORMAL') {
+        marketSection += '(✅)'
+      } else {
+        const diff = Math.round(priceStatus.difference)
+        marketSection += `(⚠️${diff > 0 ? '+' : ''}${formatRupiah(diff)})`
+      }
+    }
   }
 
   const calendarSection = formatEconomicCalendar(economicEvents)
