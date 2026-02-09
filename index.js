@@ -361,7 +361,7 @@ function formatEconomicCalendar(events) {
     return ''
   }
 
-  let calendarText = '\n📅 USD News\n'
+  let calendarText = '\n'
 
   // Group events by day+time
   const groups = []
@@ -450,11 +450,11 @@ function formatEconomicCalendar(events) {
   })
 
   groups.forEach(group => {
-    calendarText += `📌 ${group.dayName} ${group.timeStr}`
+    calendarText += `📅 ${group.dayName} ${group.timeStr}`
     if (group.timeStatus) {
       calendarText += ` (${group.timeStatus})`
     }
-    calendarText += `\n  - ${group.items.join(', ')}\n`
+    calendarText += `(${group.items.length})\n  - ${group.items.join(', ')}\n`
   })
 
   return calendarText
