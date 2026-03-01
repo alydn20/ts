@@ -184,20 +184,22 @@ function formatRupiah(n) {
 }
 
 function calculateDiscount(investmentAmount) {
-  const MIN_DISCOUNT = 5000
+  const MIN_DISCOUNT = 4999
 
   let discount
 
   if (investmentAmount <= 10000) {
-    // Special: minimum 5000 untuk nominal kecil
-    discount = Math.max(investmentAmount * 0.5, MIN_DISCOUNT)
+    // Special: 49.99% untuk nominal kecil, min 4999
+    discount = Math.max(investmentAmount * 0.4999, MIN_DISCOUNT)
   } else if (investmentAmount <= 250000) {
     discount = investmentAmount * 0.0299 // 2.99%
   } else if (investmentAmount <= 10000000) {
     discount = investmentAmount * 0.0331 // 3.31%
+  } else if (investmentAmount <= 50000000) {
+    discount = investmentAmount * 0.0332 // 3.32%
   } else {
-    // Untuk > 10jt: 3.35%
-    discount = investmentAmount * 0.0335
+    // Untuk > 50jt: 3.325%
+    discount = investmentAmount * 0.03325
   }
 
   return Math.round(discount)
@@ -973,6 +975,8 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
   const profit40M = calculateProfit(buy, sell, 40000000).profit
   const grams50M = calculateProfit(buy, sell, 50000000).totalGrams
   const profit50M = calculateProfit(buy, sell, 50000000).profit
+  const grams60M = calculateProfit(buy, sell, 60000000).totalGrams
+  const profit60M = calculateProfit(buy, sell, 60000000).profit
 
   // Format gram dengan 4 digit desimal
   const formatGrams = (g) => g.toFixed(4)
@@ -997,6 +1001,7 @@ ${marketSection}
 • 30jt→${formatGrams(grams30M)}gr (${formatProfitDisplay(profit30M)})
 • 40jt→${formatGrams(grams40M)}gr (${formatProfitDisplay(profit40M)})
 • 50jt→${formatGrams(grams50M)}gr (${formatProfitDisplay(profit50M)})
+• 60jt→${formatGrams(grams60M)}gr (${formatProfitDisplay(profit60M)})
 ${calendarSection}
 🌐 Via website: https://ts.muhamadaliyudin.xyz/`
 }
