@@ -967,8 +967,6 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 
   const grams10M = calculateProfit(buy, sell, 10000000).totalGrams
   const profit10M = calculateProfit(buy, sell, 10000000).profit
-  const grams20M = calculateProfit(buy, sell, 20000000).totalGrams
-  const profit20M = calculateProfit(buy, sell, 20000000).profit
   const grams30M = calculateProfit(buy, sell, 30000000).totalGrams
   const profit30M = calculateProfit(buy, sell, 30000000).profit
   const grams40M = calculateProfit(buy, sell, 40000000).totalGrams
@@ -997,7 +995,6 @@ function formatMessage(treasuryData, usdIdrRate, xauUsdPrice = null, priceChange
 ${marketSection}
 
 • 10jt→${formatGrams(grams10M)}gr (${formatProfitDisplay(profit10M)})
-• 20jt→${formatGrams(grams20M)}gr (${formatProfitDisplay(profit20M)})
 • 30jt→${formatGrams(grams30M)}gr (${formatProfitDisplay(profit30M)})
 • 40jt→${formatGrams(grams40M)}gr (${formatProfitDisplay(profit40M)})
 • 50jt→${formatGrams(grams50M)}gr (${formatProfitDisplay(profit50M)})
