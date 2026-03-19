@@ -2,12 +2,69 @@
 import makeWASocket, {
   DisconnectReason,
   fetchLatestBaileysVersion,
-  useMultiFileAuthState,
   Browsers,
-  makeCacheableSignalKeyStore
+  makeCacheableSignalKeyStore,
+  initAuthCreds,
+  BufferJSON
 } from '@whiskeysockets/baileys'
 import pino from 'pino'
 import express from 'express'
+import { MongoClient } from 'mongodb'
+
+// ------ MONGODB AUTH STATE ------
+async function useMongoDBAuthState(collection) {
+  const writeData = async (data, id) => {
+    await collection.replaceOne(
+      { _id: id },
+      { _id: id, data: JSON.stringify(data, BufferJSON.replacer) },
+      { upsert: true }
+    )
+  }
+
+  const readData = async (id) => {
+    const doc = await collection.findOne({ _id: id })
+    if (!doc) return null
+    return JSON.parse(doc.data, BufferJSON.reviver)
+  }
+
+  const removeData = async (id) => {
+    await collection.deleteOne({ _id: id })
+  }
+
+  const creds = (await readData('creds')) || initAuthCreds()
+
+  return {
+    state: {
+      creds,
+      keys: {
+        get: async (type, ids) => {
+          const data = {}
+          await Promise.all(
+            ids.map(async (id) => {
+              const value = await readData(`${type}-${id}`)
+              data[id] = value
+            })
+          )
+          return data
+        },
+        set: async (data) => {
+          const tasks = []
+          for (const category of Object.keys(data)) {
+            for (const id of Object.keys(data[category])) {
+              const value = data[category][id]
+              const docId = `${category}-${id}`
+              tasks.push(value ? writeData(value, docId) : removeData(docId))
+            }
+          }
+          await Promise.all(tasks)
+        }
+      }
+    },
+    saveCreds: async () => {
+      await writeData(creds, 'creds')
+    }
+  }
+}
 
 // ------ CONFIG ------
 const PORT = process.env.PORT || 8000
@@ -1386,7 +1443,12 @@ setTimeout(async () => {
 }, 30000)
 
 async function start() {
-  const { state, saveCreds } = await useMultiFileAuthState('./auth')
+  const mongoUrl = process.env.MONGODB_URI
+  if (!mongoUrl) throw new Error('MONGODB_URI environment variable is not set')
+  const mongoClient = new MongoClient(mongoUrl)
+  await mongoClient.connect()
+  const collection = mongoClient.db('wa_bot').collection('auth')
+  const { state, saveCreds } = await useMongoDBAuthState(collection)
   const { version } = await fetchLatestBaileysVersion()
 
   sock = makeWASocket({
