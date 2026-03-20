@@ -1386,7 +1386,7 @@ setTimeout(async () => {
 }, 30000)
 
 async function start() {
-  const { state, saveCreds } = await useMultiFileAuthState('/data/auth')
+  const { state, saveCreds } = await useMultiFileAuthState('./auth')
   const { version } = await fetchLatestBaileysVersion()
 
   sock = makeWASocket({
