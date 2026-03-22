@@ -1000,7 +1000,7 @@ ${marketSection}
 • 50jt→${formatGrams(grams50M)}gr (${formatProfitDisplay(profit50M)})
 • 60jt→${formatGrams(grams60M)}gr (${formatProfitDisplay(profit60M)})
 ${calendarSection}
-🌐 Via website: https://ts.muhamadaliyudin.xyz/`
+🌐 Via website: https://ts.muhamadaliyudin.my.id`
 }
 async function fetchTreasury() {
   const res = await fetch(TREASURY_URL, {
